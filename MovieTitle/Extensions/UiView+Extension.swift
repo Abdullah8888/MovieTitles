@@ -19,16 +19,19 @@ extension UIView {
         }
     }
     
-    func addDropShadow(cornerRadius: CGFloat = 10, color: UIColor = .black, opacity: Float = 0.3, offSet: CGSize =  CGSize(width: -1, height: 1), radius: CGFloat = 5, scale: Bool = true, masksToBounds: Bool = false) {
+    func addDropShadow(cornerRadius: CGFloat = 10, color: UIColor = .black, opacity: Float = 0.3, offSet: CGSize =  CGSize(width: -1, height: 1), radius: CGFloat = 5, scale: Bool = true, masksToBounds: Bool = false, shouldRasterize: Bool = false) {
         layer.masksToBounds = masksToBounds
         layer.shadowColor = color.cgColor
         layer.shadowOpacity = opacity
         layer.shadowOffset = offSet
         layer.shadowRadius = radius
         layer.cornerRadius = cornerRadius
-        //layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-        //layer.shouldRasterize = true
-        //layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+        if shouldRasterize {
+            print("the rect is \(bounds)")
+            layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+            layer.shouldRasterize = true
+            layer.rasterizationScale = scale ? UIScreen.main.scale : 1
+        }
     }
     
     func showLoader(on view: UIView) {

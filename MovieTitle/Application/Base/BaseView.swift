@@ -50,9 +50,11 @@ class BaseTableViewCell: UITableViewCell,
     
 }
 
+import RxSwift
 class BaseController<SubView: UIView>: UIViewController {
     
     let _view: SubView
+    let disposeBag = DisposeBag()
     
     private let activity: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView.init(style: .large)
@@ -81,6 +83,11 @@ class BaseController<SubView: UIView>: UIViewController {
         view.clipsToBounds = true
     }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        styleNavBar()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
@@ -103,21 +110,17 @@ class BaseController<SubView: UIView>: UIViewController {
         loaderContainer.removeFromSuperview()
     }
     
-    func setNavbar() {
-        let titleLabel = Label(text: "Newsfeed", font: .helveticaNeueBold(size: 18), textColor: .white)
-        let titleNavItem = UIBarButtonItem.init(customView: titleLabel)
-        navigationItem.setLeftBarButton(titleNavItem, animated: true)
-        navigationController?.navigationBar.backgroundColor = .hex23232b
-        navigationController?.navigationBar.tintColor = .hex23232b
-        navigationController?.navigationBar.barTintColor = .hex23232b
-        navigationItem.largeTitleDisplayMode = .never
-        navigationController?.navigationBar.prefersLargeTitles = false
-       
-        setupStatusBar()
-    }
-    
-    func setNavbar(tintColor: UIColor) {
-        navigationController?.navigationBar.tintColor = tintColor
+    func styleNavBar() {
+        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.backgroundColor = UIColor.black
+        navigationController?.navigationBar.titleTextAttributes = [.foregroundColor: UIColor.white]
+//        navigationController?.navigationBar.prefersLargeTitles = true
+//        navigationItem.largeTitleDisplayMode = .never
+//        let attr = [
+//            NSAttributedString.Key.foregroundColor: UIColor.label,
+//            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)
+//        ]
+//        navigationController?.navigationBar.largeTitleTextAttributes = attr
         setupStatusBar()
     }
     
@@ -126,12 +129,12 @@ class BaseController<SubView: UIView>: UIViewController {
             let statusBarHeight: CGFloat = UIWindow.keyWindow?.windowScene?.statusBarManager?.statusBarFrame.size.height ?? 0
             
             let statusbarView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: statusBarHeight))
-            statusbarView.backgroundColor = .hex23232b
+            statusbarView.backgroundColor = .black
             view.addSubview(statusbarView)
             
         } else {
             let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView
-            statusBar?.backgroundColor = .hex23232b
+            statusBar?.backgroundColor = .black
         }
     }
 }

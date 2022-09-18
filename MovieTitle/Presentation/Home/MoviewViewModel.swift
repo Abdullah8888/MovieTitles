@@ -6,17 +6,26 @@
 //
 
 import Foundation
+import RxSwift
 
 class MoviewViewModel {
     
     private let getMoviesUseCase: GetMoviesUseCaseProtocol
-    var movie: Variable<[Movie]> = Variable([])
-    
+    var movieResponse: PublishSubject<MovieResponse> = PublishSubject<MovieResponse>()
+    var errorHandler: PublishSubject<ErrorModel> = PublishSubject<ErrorModel>()
+    //let error: Variable<ErrorModel?> = Variable(nil)
     init(getMoviesUseCase: GetMoviesUseCaseProtocol) {
         self.getMoviesUseCase = getMoviesUseCase
     }
     
-    func getPopularMovies() {
-        
+    func getMovies(page: Int = 1) {
+        getMoviesUseCase.getMovies(page: page) { result in
+            switch result {
+            case .success(let res):
+                self.movieResponse.onNext(res)
+            case .failure(let err):
+                self.errorHandler.onNext(err)
+            }
+        }
     }
 }

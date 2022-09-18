@@ -17,35 +17,40 @@ class MovieView: BaseView {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.separatorStyle = .none
-        //tableView.backgroundColor = .hexE5E5E5
+        tableView.backgroundColor = .black
         tableView.register(MovieCell.self, forCellReuseIdentifier: movieCell)
         return tableView
     }()
     
     var movies: [Movie]? {
         didSet {
-            tableView.reloadData()
+            if movies?.isEmpty ?? false {
+                tableView.showEmptyViewWith(text: "No data found")
+            }
+            else {
+                tableView.reloadData()
+            }
         }
     }
     
     override func setup() {
         super.setup()
         addSubview(tableView)
-        tableView.fillUpSuperview()
+        tableView.fillUpSuperview(margin: .topOnly(20))
     }
 }
 
 extension MovieView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        //10
-        //posts?.count ?? 0
-        10
+        movies?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: movieCell) as! MovieCell
-
+        if let movie = self.movies?[indexPath.row] {
+            cell.updateCell(with: movie)
+        }
         return cell
     }
 }
@@ -54,19 +59,22 @@ extension MovieView: UITableViewDelegate, UITableViewDataSource {
 class MovieCell: BaseTableViewCell {
     
     let posterImage: UIImageView = {
-        let img = UIImageView(image: UIImage(systemName: ""))
-        img.changeImageColor(to: .lightGray)
-        img.constrainHeight(constant: 170)
+        let img = UIImageView()
+        img.changeImageColor(to: .red)
+        img.backgroundColor = .red
+        img.contentMode = .scaleAspectFit
+        img.backgroundColor = .black
+        img.constrainHeight(constant: 250)
         return img
     }()
     
     let titleLabel: Label = {
-        let label = Label(text: "Title", font: .helveticaNeueBold(size: 16), textColor: .white)
+        let label = Label(text: "Title", font: .helveticaNeueBold(size: 17), textColor: .systemRed, alignment: .center)
         return label
     }()
     
     let overViewLabel: Label = {
-        let label = Label(text: "Overview", font: .helveticaNeueRegular(size: 14), textColor: .white.withAlphaComponent(0.8))
+        let label = Label(text: "Overview", font: .helveticaNeueRegular(size: 15), textColor: .systemRed.withAlphaComponent(0.8), alignment: .center)
         return label
     }()
     
@@ -75,19 +83,34 @@ class MovieCell: BaseTableViewCell {
         stackView.distribution = .fill
         stackView.alignment = .fill
         stackView.spacing = 10
+        stackView.axis = .vertical
         stackView.layer.borderWidth = 1
+        stackView.clipsToBounds = true
         return stackView
+    }()
+    
+    let containerView: ShadowView = {
+        let view = ShadowView()
+        view.backgroundColor = .black
+        return view
     }()
     
     override func setup() {
         super.setup()
-        addSubview(stackView)
-        stackView.fillUpSuperview(margin: .init(allEdges: 10))
+        
+        contentView.addSubview(containerView)
+        backgroundColor = .black
+        containerView.fillUpSuperview(margin: .init(allEdges: 20))
+        containerView.addSubview(stackView)
+        stackView.fillUpSuperview(margin: .init(allEdges: 20))
+
     }
     
     func updateCell(with movie: Movie) {
         titleLabel.text = movie.title ?? "Not Found"
         overViewLabel.text = movie.overview ?? "Not Found"
+        let ff = .posterHost + (movie.posterPath ?? "")
+        print("the img full url is \(ff)")
+        posterImage.showImage(url: .posterHost + (movie.posterPath ?? ""))
     }
 }
-
