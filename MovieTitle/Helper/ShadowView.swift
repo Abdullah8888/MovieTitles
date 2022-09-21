@@ -16,7 +16,6 @@ class ShadowView: UIView {
     }
 
     private func setupShadow() {
-        print("self.bounds, is \(self.bounds)")
         self.layer.cornerRadius = 13
         self.layer.shadowOffset = CGSize(width: 0, height: 0)
         self.layer.shadowRadius = 3

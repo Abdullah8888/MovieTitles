@@ -34,7 +34,7 @@ final class MovieHomeController: BaseController<MovieView> {
         
         viewModel?.errorHandler.subscribe(weakify({ strongSelf, error in
             DispatchQueue.main.async {
-                strongSelf.showToastWithTItle(error.element?.message ?? "asdfadfd", type: .error)
+                strongSelf.showToastWithTItle(error.element?.message, type: .error)
                 strongSelf.removeLoader()
             }
         })).disposed(by: disposeBag)

@@ -27,7 +27,6 @@ extension UIView {
         layer.shadowRadius = radius
         layer.cornerRadius = cornerRadius
         if shouldRasterize {
-            print("the rect is \(bounds)")
             layer.shadowPath = UIBezierPath(rect: bounds).cgPath
             layer.shouldRasterize = true
             layer.rasterizationScale = scale ? UIScreen.main.scale : 1

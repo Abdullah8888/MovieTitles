@@ -136,8 +136,6 @@ class MovieCell: BaseTableViewCell {
     func updateCell(with movie: Movie) {
         titleLabel.text = movie.title ?? "Not Found"
         overViewLabel.text = movie.overview ?? "Not Found"
-        let ff = .posterHost + (movie.posterPath ?? "")
-        print("the img full url is \(ff)")
         posterImage.showImage(url: .posterHost + (movie.posterPath ?? ""))
     }
 }

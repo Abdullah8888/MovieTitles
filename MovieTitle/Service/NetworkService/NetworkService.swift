@@ -36,14 +36,11 @@ class RemoteService: RemoteServiceProtocol {
             return
         }
         
-        print("full url gan gan is \(url)")
         URLSession.shared.dataTask(with: url) { data, urlResponse, error in
             guard error == nil else {
                 completion(.failure(ErrorModel(message: error?.localizedDescription ?? "")))
                 return
             }
-            let str = String(decoding: data!, as: UTF8.self)
-            print("the res is \(str)")
             guard let data = data else {
                 completion(.failure(ErrorModel(message: "Unable to retrive data")))
                 return
