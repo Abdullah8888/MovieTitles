@@ -10,3 +10,7 @@ The project used SPM to install the follwowing dependencies:-
 
 ## Design Pattern
 - MVVM
+
+## UI Test
+
+ [Check here](https://github.com/Abdullah8888/MovieTitles/tree/main/MovieTitleTests)
