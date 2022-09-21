@@ -15,20 +15,20 @@ final class MovieHomeController: BaseController<MovieView> {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Movies"
-//        viewModel?.movieResponse.onUpdate = { [weak self] res in
-//            self?._view.movies = res?.results
-//            self?.removeLoader()
-//        }
-//
-//        viewModel?.error.onUpdate = { [weak self] err in
-//            self?.showToastWithTItle(err?.message, type: .error)
-//            self?.removeLoader()
-//        }
-        
         viewModel?.movieResponse.subscribe(weakify({ strongSelf, res in
             DispatchQueue.main.async {
-                strongSelf._view.movies = res.element?.results
                 strongSelf.removeLoader()
+                if let results = res.element?.results {
+                    guard let _ = strongSelf._view.movies else {
+                        strongSelf._view.movies = results
+                        return
+                        
+                    }
+                    strongSelf._view.movies?.append(contentsOf: results)
+                }
+                else {
+                    strongSelf._view.movies = []
+                }
             }
         })).disposed(by: disposeBag)
         
@@ -40,6 +40,6 @@ final class MovieHomeController: BaseController<MovieView> {
         })).disposed(by: disposeBag)
         
         showLoader()
-        viewModel?.getMovies()
+        _view.viewModel = viewModel
     }
 }

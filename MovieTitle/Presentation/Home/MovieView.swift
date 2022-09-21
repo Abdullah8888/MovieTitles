@@ -22,6 +22,9 @@ class MovieView: BaseView {
         return tableView
     }()
     
+    var pageCount = 0
+    var viewModel: MovieViewModel?
+    var isLoadingStarted = true
     var movies: [Movie]? {
         didSet {
             if movies?.isEmpty ?? false {
@@ -52,6 +55,30 @@ extension MovieView: UITableViewDelegate, UITableViewDataSource {
             cell.updateCell(with: movie)
         }
         return cell
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        self.isLoadingStarted = true
+    }
+
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let offsetY = scrollView.contentOffset.y
+        let contentHeight = scrollView.contentSize.height
+
+        if offsetY > contentHeight - scrollView.frame.height {
+
+            if let vievModel = viewModel {
+                if !vievModel.paginationFinished && isLoadingStarted {
+                    isLoadingStarted = false
+                    pageCount = pageCount + 1
+                    //fetchMoreMovies?(pageCount)
+                    viewModel?.getMovies(page: pageCount)
+                    self.tableView.reloadData()
+
+                }
+            }
+
+        }
     }
 }
     

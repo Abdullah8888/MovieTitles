@@ -36,7 +36,7 @@ class RemoteService: RemoteServiceProtocol {
             return
         }
         
-        print("full url is \(url)")
+        print("full url gan gan is \(url)")
         URLSession.shared.dataTask(with: url) { data, urlResponse, error in
             guard error == nil else {
                 completion(.failure(ErrorModel(message: error?.localizedDescription ?? "")))

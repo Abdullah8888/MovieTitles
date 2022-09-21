@@ -13,7 +13,7 @@ class MovieViewModel {
     private let getMoviesUseCase: GetMoviesUseCaseProtocol
     var movieResponse: PublishSubject<MovieResponse> = PublishSubject<MovieResponse>()
     var errorHandler: PublishSubject<ErrorModel> = PublishSubject<ErrorModel>()
-    //let error: Variable<ErrorModel?> = Variable(nil)
+    var paginationFinished = false
     init(getMoviesUseCase: GetMoviesUseCaseProtocol) {
         self.getMoviesUseCase = getMoviesUseCase
     }
