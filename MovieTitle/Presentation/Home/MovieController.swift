@@ -10,7 +10,7 @@ import UIKit
 
 final class MovieHomeController: BaseController<MovieView> {
     
-    var viewModel: MoviewViewModel?
+    var viewModel: MovieViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()

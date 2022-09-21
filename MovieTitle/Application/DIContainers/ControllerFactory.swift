@@ -22,7 +22,7 @@ final class MovieControllerFactory: MovieControllerFactoryProtocol {
     
     func makeMovieHomeController() -> MovieHomeController {
         let vc = MovieHomeController(view: MovieView())
-        vc.viewModel = MoviewViewModel(getMoviesUseCase: appDependencies.makeGetMoviesUseCase())
+        vc.viewModel = MovieViewModel(getMoviesUseCase: appDependencies.makeGetMoviesUseCase())
         return vc
     }
 }

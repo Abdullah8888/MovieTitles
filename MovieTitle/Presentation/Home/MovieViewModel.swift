@@ -8,7 +8,7 @@
 import Foundation
 import RxSwift
 
-class MoviewViewModel {
+class MovieViewModel {
     
     private let getMoviesUseCase: GetMoviesUseCaseProtocol
     var movieResponse: PublishSubject<MovieResponse> = PublishSubject<MovieResponse>()
