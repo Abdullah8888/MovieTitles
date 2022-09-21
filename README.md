@@ -1,5 +1,5 @@
 # MovieTitles
-An applicaton displays a Home Screen for an on demand streaming service, and it was also built with clean architecture.
+An application that displays a Home Screen for an on-demand streaming service and also built with clean architecture concept.
 
 <img src="https://github.com/Abdullah8888/MovieTitles/blob/main/MovieTitle/Resources/sample_image.png" alt="drawing" style="width:250px;height:500px;"/>
 
